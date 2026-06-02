@@ -16,10 +16,10 @@ function RenderBox({ id, label, scenario, mode, counters, children, className })
       key={`${id}-${counters[id]}`}
       initial={{ scale: 0.985 }}
       animate={{ scale: 1 }}
-      className={cn("rounded-lg border bg-white/[0.035] p-3 transition", severityStyles[severity], className)}
+      className={cn("min-w-0 rounded-lg border bg-white/[0.035] p-3 transition", severityStyles[severity], className)}
     >
-      <div className="mb-2 flex items-center justify-between gap-2">
-        <span className="text-xs font-medium uppercase tracking-[0.14em] text-muted">{label}</span>
+      <div className="mb-2 flex min-w-0 flex-wrap items-start justify-between gap-2">
+        <span className="min-w-0 text-xs font-medium uppercase tracking-[0.14em] text-muted">{label}</span>
         <Badge tone={severity === "wasted" ? "danger" : severity === "necessary" ? "success" : severity === "acceptable" ? "warning" : "neutral"}>
           {counters[id] || 0} renders
         </Badge>
@@ -33,8 +33,8 @@ export default function DashboardSimulation({ state }) {
   const users = mockUsers.slice(0, 8);
 
   return (
-    <Card className="overflow-hidden">
-      <div className="border-b border-white/10 bg-white/[0.035] p-4">
+    <Card className="demo-panel dashboard-panel">
+      <div className="shrink-0 border-b border-white/10 bg-white/[0.035] p-4">
         <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
           <div>
             <p className="text-xs uppercase tracking-[0.18em] text-accent">Live dashboard simulation</p>
@@ -45,16 +45,16 @@ export default function DashboardSimulation({ state }) {
           </Badge>
         </div>
       </div>
-      <div className="grid gap-3 p-4 lg:grid-cols-[150px_1fr]">
+      <div className="dashboard-viewport dashboard-shell-grid p-4">
         <RenderBox id="sidebar" label="Sidebar" scenario={state.scenario} mode={state.mode} counters={state.counters}>
           <div className="space-y-2 text-sm text-muted">
             {["Overview", "Users", "Reports", "Settings"].map((item) => <div key={item} className="rounded bg-white/[0.05] px-2 py-1.5">{item}</div>)}
           </div>
         </RenderBox>
-        <div className="space-y-3">
+        <div className="dashboard-main min-w-0 space-y-3">
           <RenderBox id="header" label="Header" scenario={state.scenario} mode={state.mode} counters={state.counters}>
             <div className="flex flex-wrap items-center justify-between gap-3">
-              <div>
+              <div className="min-w-0">
                 <p className="text-lg font-semibold text-white">Workspace analytics</p>
                 <p className="text-sm text-muted">Small interactions should stay small.</p>
               </div>
@@ -64,11 +64,11 @@ export default function DashboardSimulation({ state }) {
               </div>
             </div>
           </RenderBox>
-          <div className="grid gap-3 lg:grid-cols-3">
-            <RenderBox id="search" label="Search Panel" scenario={state.scenario} mode={state.mode} counters={state.counters} className="lg:col-span-2">
+          <div className="dashboard-action-grid">
+            <RenderBox id="search" label="Search Panel" scenario={state.scenario} mode={state.mode} counters={state.counters} className="dashboard-search-card">
               <label className="flex items-center gap-2 rounded-md border border-white/10 bg-black/25 px-3 py-2 text-sm text-muted">
                 <Search className="h-4 w-4" />
-                <input className="w-full bg-transparent text-white outline-none" value={state.query} onChange={(event) => state.setQuery(event.target.value)} placeholder="Search users..." />
+                <input className="min-w-0 w-full bg-transparent text-white outline-none" value={state.query} onChange={(event) => state.setQuery(event.target.value)} placeholder="Search users..." />
               </label>
             </RenderBox>
             <RenderBox id="notifications" label="Notifications" scenario={state.scenario} mode={state.mode} counters={state.counters}>
@@ -78,15 +78,15 @@ export default function DashboardSimulation({ state }) {
               </div>
             </RenderBox>
           </div>
-          <div className="grid gap-3 md:grid-cols-3">
+          <div className="dashboard-metrics-grid">
             {["Revenue", "Active users", "Latency"].map((metric, index) => (
               <RenderBox key={metric} id="metrics" label={metric} scenario={state.scenario} mode={state.mode} counters={state.counters}>
-                <p className="text-2xl font-semibold text-white">{index === 0 ? "$42.8k" : index === 1 ? "12,408" : "87ms"}</p>
+                <p className="break-words text-2xl font-semibold text-white">{index === 0 ? "$42.8k" : index === 1 ? "12,408" : "87ms"}</p>
                 <p className="text-xs text-success">Healthy trend</p>
               </RenderBox>
             ))}
           </div>
-          <div className="grid gap-3 xl:grid-cols-[1.3fr_0.7fr]">
+          <div className="dashboard-lower-grid">
             <RenderBox id="table" label="Users Table" scenario={state.scenario} mode={state.mode} counters={state.counters}>
               <div className="overflow-hidden rounded-md border border-white/10">
                 {users.map((user) => (
@@ -95,7 +95,7 @@ export default function DashboardSimulation({ state }) {
                     onClick={() => state.setSelectedUserId(user.id)}
                     className={cn("grid grid-cols-[1fr_auto] gap-3 border-b border-white/10 px-3 py-2 text-sm last:border-b-0", state.selectedUserId === user.id && "bg-accent/10")}
                   >
-                    <div>
+                    <div className="min-w-0">
                       <p className="font-medium text-white">{user.name}</p>
                       <p className="text-xs text-muted">{user.team} / {user.role}</p>
                     </div>

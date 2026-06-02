@@ -13,7 +13,7 @@ export default function RenderLab() {
   const state = useRenderSimulation();
 
   return (
-    <div className="space-y-5">
+    <div className="space-y-6">
       <div className="flex flex-col gap-3 lg:flex-row lg:items-end lg:justify-between">
         <div>
           <p className="text-xs uppercase tracking-[0.2em] text-accent">Interactive demo</p>
@@ -24,14 +24,14 @@ export default function RenderLab() {
           <ModeToggle mode={state.mode} setMode={state.setMode} />
         </div>
       </div>
-      <div className="grid gap-4 2xl:grid-cols-[280px_minmax(0,1fr)_360px]">
-        <div className="space-y-4">
+      <div className="demo-grid">
+        <div className="demo-column">
           <ScenarioSelector scenarios={state.scenarios} scenarioId={state.scenarioId} setScenarioId={state.setScenarioId} />
           <InteractionControls runInteraction={state.runInteraction} />
           <UpdateFlow scenario={state.scenario} mode={state.mode} />
         </div>
         <DashboardSimulation state={state} />
-        <div className="space-y-4">
+        <div className="demo-column">
           <ComponentTree scenario={state.scenario} mode={state.mode} counters={state.counters} />
           <ProfilerPanel scenario={state.scenario} mode={state.mode} metrics={state.metrics} savedWork={state.savedWork} />
         </div>

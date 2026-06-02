@@ -8,7 +8,7 @@ import { cn } from "@/lib/utils";
 export default function MobileNav() {
   const pathname = usePathname();
   return (
-    <nav className="mx-auto flex max-w-7xl gap-2 overflow-x-auto border-b border-white/10 px-4 py-3 lg:px-6 xl:hidden">
+    <nav className="mobile-nav">
       {navigation.map((item) => (
         <Link
           key={item.href}

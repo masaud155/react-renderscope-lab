@@ -8,8 +8,8 @@ import { cn } from "@/lib/utils";
 export default function SidebarNav() {
   const pathname = usePathname();
   return (
-    <aside className="hidden w-64 shrink-0 border-r border-white/10 px-3 py-5 xl:block">
-      <nav className="sticky top-20 space-y-1">
+    <aside className="sidebar">
+      <nav className="space-y-1">
         {navigation.map((item) => {
           const Icon = item.icon;
           return (

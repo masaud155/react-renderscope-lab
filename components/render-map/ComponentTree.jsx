@@ -5,14 +5,14 @@ import RenderNode from "@/components/render-map/RenderNode";
 
 export default function ComponentTree({ scenario, mode, counters }) {
   return (
-    <Card>
-      <CardHeader>
+    <Card className="demo-panel flex flex-col">
+      <CardHeader className="shrink-0">
         <p className="text-xs uppercase tracking-[0.18em] text-accent">Component render map</p>
         <h2 className="mt-1 text-lg font-semibold text-white">What re-rendered?</h2>
       </CardHeader>
-      <CardContent className="space-y-3">
+      <CardContent className="demo-panel-scroll space-y-3">
         <RenderLegend />
-        <div className="space-y-2">
+        <div className="render-map-list space-y-2">
           {componentTree.map((node) => (
             <RenderNode key={node.id} node={node} scenario={scenario} mode={mode} counters={counters} />
           ))}
