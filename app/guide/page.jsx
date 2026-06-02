@@ -39,11 +39,15 @@ export default function GuidePage() {
         <CardContent className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
           <div>
             <h2 className="text-xl font-semibold text-white">Project links</h2>
-            <p className="mt-2 text-sm text-muted">GitHub repo placeholder and Medium article placeholder are ready to replace.</p>
+            <p className="mt-2 text-sm text-muted">Explore the source code and follow the Medium profile for related frontend performance writing.</p>
           </div>
           <div className="flex flex-wrap gap-2">
-            <Button asChild variant="secondary"><Link href="#">GitHub placeholder</Link></Button>
-            <Button asChild><Link href="#">Medium placeholder</Link></Button>
+            <Button asChild variant="secondary">
+              <Link href="https://github.com/masaud155/react-renderscope-lab" target="_blank" rel="noreferrer">GitHub repository</Link>
+            </Button>
+            <Button asChild>
+              <Link href="https://medium.com/@codetune" target="_blank" rel="noreferrer">Medium profile</Link>
+            </Button>
           </div>
         </CardContent>
       </Card>
