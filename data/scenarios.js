@@ -1,0 +1,80 @@
+export const scenarios = [
+  {
+    id: "state-too-high",
+    title: "State Placed Too High",
+    subtitle: "One search input makes the whole dashboard work again.",
+    interaction: "Typing in search input",
+    badDescription: "Search state lives in DashboardPage, so unrelated dashboard sections re-render on every keystroke.",
+    goodDescription: "Search state lives inside the table area, so only search and table-related UI updates.",
+    lesson: "A small interaction should cause a small update. Keep state close to where it is used.",
+    badMetrics: { totalRenders: 742, wastedRenders: 690, affectedComponents: 18, commitDuration: 42, performanceScore: 42 },
+    goodMetrics: { totalRenders: 38, wastedRenders: 6, affectedComponents: 4, commitDuration: 7, performanceScore: 94 },
+    badAffected: { dashboard: "acceptable", header: "wasted", sidebar: "wasted", search: "necessary", metrics: "wasted", table: "necessary", rows: "wasted", chart: "wasted", notifications: "wasted", profile: "wasted", modal: "wasted" },
+    goodAffected: { dashboard: "idle", header: "idle", sidebar: "idle", search: "necessary", metrics: "idle", table: "necessary", rows: "acceptable", chart: "idle", notifications: "idle", profile: "idle", modal: "idle" }
+  },
+  {
+    id: "broad-context",
+    title: "Broad AppContext Update",
+    subtitle: "A notification count wakes auth, theme, workspace, and sidebar consumers.",
+    interaction: "Notification count changes",
+    badDescription: "One overloaded AppContext stores many changing values, so every consumer is subscribed to churn.",
+    goodDescription: "Notification state has its own focused provider near the consumers that need it.",
+    lesson: "Not every shared value deserves global context.",
+    badMetrics: { totalRenders: 516, wastedRenders: 471, affectedComponents: 15, commitDuration: 35, performanceScore: 48 },
+    goodMetrics: { totalRenders: 22, wastedRenders: 4, affectedComponents: 3, commitDuration: 5, performanceScore: 96 },
+    badAffected: { dashboard: "acceptable", header: "wasted", sidebar: "wasted", search: "idle", metrics: "wasted", table: "wasted", rows: "wasted", chart: "wasted", notifications: "necessary", profile: "wasted", modal: "idle" },
+    goodAffected: { dashboard: "idle", header: "idle", sidebar: "idle", search: "idle", metrics: "idle", table: "idle", rows: "idle", chart: "idle", notifications: "necessary", profile: "idle", modal: "idle" }
+  },
+  {
+    id: "large-list",
+    title: "Large List Re-render",
+    subtitle: "A single row action becomes hundreds of row renders.",
+    interaction: "Selecting a table row",
+    badDescription: "The parent table recreates row props and handlers, so every row lights up.",
+    goodDescription: "Rows are isolated with stable props, so the selected row does the work.",
+    lesson: "Large lists magnify rendering mistakes.",
+    badMetrics: { totalRenders: 884, wastedRenders: 831, affectedComponents: 12, commitDuration: 58, performanceScore: 35 },
+    goodMetrics: { totalRenders: 18, wastedRenders: 2, affectedComponents: 2, commitDuration: 4, performanceScore: 98 },
+    badAffected: { dashboard: "acceptable", header: "wasted", sidebar: "idle", search: "idle", metrics: "wasted", table: "necessary", rows: "wasted", chart: "idle", notifications: "idle", profile: "idle", modal: "idle" },
+    goodAffected: { dashboard: "idle", header: "idle", sidebar: "idle", search: "idle", metrics: "idle", table: "acceptable", rows: "necessary", chart: "idle", notifications: "idle", profile: "idle", modal: "idle" }
+  },
+  {
+    id: "client-boundary",
+    title: "Next.js Client Boundary Mistake",
+    subtitle: "One interactive button turns a mostly static page into a client-heavy surface.",
+    interaction: "Opening settings modal",
+    badDescription: "The whole dashboard page is marked with use client, so static sections join the client bundle.",
+    goodDescription: "The page stays server-first while modal and controls live in small client islands.",
+    lesson: "Use client is a boundary decision, not a decoration.",
+    badMetrics: { totalRenders: 338, wastedRenders: 294, affectedComponents: 11, commitDuration: 28, performanceScore: 55 },
+    goodMetrics: { totalRenders: 31, wastedRenders: 5, affectedComponents: 3, commitDuration: 6, performanceScore: 93 },
+    badAffected: { dashboard: "acceptable", header: "wasted", sidebar: "wasted", search: "idle", metrics: "wasted", table: "wasted", rows: "wasted", chart: "wasted", notifications: "idle", profile: "wasted", modal: "necessary" },
+    goodAffected: { dashboard: "idle", header: "idle", sidebar: "idle", search: "idle", metrics: "idle", table: "idle", rows: "idle", chart: "idle", notifications: "idle", profile: "idle", modal: "necessary" }
+  },
+  {
+    id: "memo-panic",
+    title: "Memoization Panic",
+    subtitle: "Memo wrappers hide a boundary problem without fixing the update spread.",
+    interaction: "Changing filter",
+    badDescription: "useMemo and React.memo are added everywhere while state still lives too high.",
+    goodDescription: "Boundaries are fixed first, then memoization is reserved for measured hotspots.",
+    lesson: "Measure, move state, split boundaries, then memoize when it solves a real problem.",
+    badMetrics: { totalRenders: 421, wastedRenders: 349, affectedComponents: 14, commitDuration: 31, performanceScore: 52 },
+    goodMetrics: { totalRenders: 44, wastedRenders: 8, affectedComponents: 4, commitDuration: 8, performanceScore: 91 },
+    badAffected: { dashboard: "acceptable", header: "wasted", sidebar: "wasted", search: "necessary", metrics: "wasted", table: "necessary", rows: "wasted", chart: "wasted", notifications: "idle", profile: "idle", modal: "idle" },
+    goodAffected: { dashboard: "idle", header: "idle", sidebar: "idle", search: "necessary", metrics: "idle", table: "necessary", rows: "acceptable", chart: "idle", notifications: "idle", profile: "idle", modal: "idle" }
+  },
+  {
+    id: "ai-review",
+    title: "AI-Generated Dashboard Review",
+    subtitle: "Working code is not the same thing as a good runtime architecture.",
+    interaction: "Review generated code",
+    badDescription: "The generated draft has one giant client component, high state, broad context, and unstable props.",
+    goodDescription: "The reviewed version uses responsibility-based components and localizes interactive state.",
+    lesson: "Treat AI output as a draft. Senior review asks what has to re-render when this changes.",
+    badMetrics: { totalRenders: 672, wastedRenders: 602, affectedComponents: 17, commitDuration: 47, performanceScore: 40 },
+    goodMetrics: { totalRenders: 52, wastedRenders: 9, affectedComponents: 5, commitDuration: 9, performanceScore: 89 },
+    badAffected: { dashboard: "acceptable", header: "wasted", sidebar: "wasted", search: "necessary", metrics: "wasted", table: "necessary", rows: "wasted", chart: "wasted", notifications: "wasted", profile: "wasted", modal: "wasted" },
+    goodAffected: { dashboard: "idle", header: "idle", sidebar: "idle", search: "necessary", metrics: "idle", table: "necessary", rows: "acceptable", chart: "idle", notifications: "idle", profile: "idle", modal: "acceptable" }
+  }
+];
