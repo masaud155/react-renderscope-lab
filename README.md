@@ -6,7 +6,7 @@ RenderScope Lab is an interactive React rendering performance lab. It visually s
 
 ## Live demo
 
-Vercel URL placeholder: `[https://renderscope-lab.vercel.app](https://react-renderscope-heve2o862-masaud155s-projects.vercel.app/)`
+Vercel URL placeholder: `https://react-renderscope-heve2o862-masaud155s-projects.vercel.app/`
 
 ## Purpose
 
