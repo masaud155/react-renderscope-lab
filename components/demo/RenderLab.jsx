@@ -13,12 +13,12 @@ export default function RenderLab() {
   const state = useRenderSimulation();
 
   return (
-    <div className="space-y-6">
-      <div className="flex flex-col gap-3 lg:flex-row lg:items-end lg:justify-between">
+    <div className="demo-lab">
+      <div className="demo-hero flex flex-col gap-3 lg:flex-row lg:items-end lg:justify-between">
         <div>
           <p className="text-xs uppercase tracking-[0.2em] text-accent">Interactive demo</p>
-          <h1 className="mt-2 text-3xl font-semibold text-white sm:text-4xl">Render storm simulator</h1>
-          <p className="mt-3 max-w-3xl text-muted">Use the same dashboard in bad and optimized modes to see how state placement, context shape, and component boundaries change update spread.</p>
+          <h1 className="demo-title mt-2 font-semibold text-white">Render storm simulator</h1>
+          <p className="demo-copy mt-3 max-w-3xl text-muted">Use the same dashboard in bad and optimized modes to see how state placement, context shape, and component boundaries change update spread.</p>
         </div>
         <div className="w-full max-w-md">
           <ModeToggle mode={state.mode} setMode={state.setMode} />

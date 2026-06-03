@@ -6,6 +6,10 @@
   box-sizing: border-box;
 }
 
+:root {
+  --top-nav-height: 72px;
+}
+
 html {
   scroll-behavior: smooth;
 }
@@ -16,7 +20,7 @@ body {
 }
 
 body {
-  min-height: 100vh;
+  min-height: 100dvh;
   background:
     radial-gradient(circle at 18% 0%, rgb(45 212 191 / 0.14), transparent 28rem),
     radial-gradient(circle at 82% 10%, rgb(99 102 241 / 0.12), transparent 25rem),
@@ -26,13 +30,15 @@ body {
 }
 
 .app-shell {
-  min-height: 100vh;
+  height: 100dvh;
+  min-height: 100dvh;
   display: flex;
   flex-direction: column;
+  overflow: hidden;
 }
 
 .top-nav {
-  height: 72px;
+  height: var(--top-nav-height);
   flex-shrink: 0;
 }
 
@@ -40,12 +46,13 @@ body {
   flex: 1;
   min-height: 0;
   display: grid;
-  grid-template-columns: 260px minmax(0, 1fr);
+  grid-template-columns: clamp(220px, 18vw, 260px) minmax(0, 1fr);
   width: 100%;
+  overflow: hidden;
 }
 
 .sidebar {
-  height: calc(100vh - 72px);
+  height: calc(100dvh - var(--top-nav-height));
   min-height: 0;
   overflow-y: auto;
   border-right: 1px solid rgb(255 255 255 / 0.1);
@@ -54,7 +61,7 @@ body {
 
 .page-content {
   min-width: 0;
-  height: calc(100vh - 72px);
+  height: calc(100dvh - var(--top-nav-height));
   min-height: 0;
   overflow-x: hidden;
   overflow-y: auto;
@@ -64,6 +71,26 @@ body {
   width: min(100%, 1500px);
   margin: 0 auto;
   padding: 28px 24px 64px;
+}
+
+.demo-lab {
+  display: grid;
+  gap: 24px;
+  min-width: 0;
+}
+
+.demo-hero {
+  min-width: 0;
+}
+
+.demo-title {
+  font-size: clamp(2rem, 3.4vw, 3.75rem);
+  line-height: 1.05;
+}
+
+.demo-copy {
+  font-size: clamp(0.95rem, 1.15vw, 1.125rem);
+  line-height: 1.55;
 }
 
 .mobile-nav {
@@ -98,9 +125,10 @@ body {
 
 .demo-grid {
   display: grid;
-  grid-template-columns: minmax(280px, 0.85fr) minmax(540px, 1.35fr) minmax(340px, 0.95fr);
+  grid-template-columns: minmax(230px, 0.72fr) minmax(420px, 1.45fr) minmax(240px, 0.72fr);
   gap: 24px;
   align-items: start;
+  min-width: 0;
 }
 
 .demo-column,
@@ -118,23 +146,24 @@ body {
 }
 
 .demo-panel-scroll {
-  flex: none;
+  flex: 1 1 auto;
   min-height: 0;
-  overflow: visible;
+  overflow: auto;
   scrollbar-width: thin;
   scrollbar-color: rgb(45 212 191 / 0.35) transparent;
 }
 
 .dashboard-panel {
   container-type: inline-size;
-  display: block;
+  display: flex;
+  flex-direction: column;
 }
 
 .dashboard-viewport {
-  flex: none;
+  flex: 1 1 auto;
   min-width: 0;
   min-height: 0;
-  overflow: visible;
+  overflow: auto;
 }
 
 .dashboard-shell-grid {
@@ -188,10 +217,17 @@ body {
 
 @media (max-width: 1380px) {
   .demo-grid {
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    grid-template-columns: minmax(220px, 0.68fr) minmax(410px, 1.35fr) minmax(220px, 0.68fr);
+    gap: 16px;
+  }
+}
+
+@media (max-width: 1180px) {
+  .demo-grid {
+    grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
   }
 
-  .demo-grid > :nth-child(2) {
+  .demo-grid > :nth-child(3) {
     grid-column: 1 / -1;
   }
 }
@@ -206,7 +242,7 @@ body {
   }
 
   .page-content {
-    height: calc(100vh - 72px);
+    height: calc(100dvh - var(--top-nav-height));
   }
 
   .page-inner {
@@ -225,6 +261,109 @@ body {
     grid-column: auto;
   }
 
+}
+
+@media (max-width: 1280px) {
+  :root {
+    --top-nav-height: 64px;
+  }
+
+  .top-nav nav {
+    gap: 0;
+  }
+
+  .top-nav nav a {
+    padding-inline: 0.65rem;
+  }
+
+  .sidebar {
+    padding: 18px 10px;
+  }
+
+  .page-inner {
+    padding: 22px 18px 48px;
+  }
+
+  .dashboard-shell-grid {
+    grid-template-columns: minmax(104px, 128px) minmax(0, 1fr);
+    gap: 10px;
+  }
+
+  .dashboard-action-grid,
+  .dashboard-lower-grid,
+  .dashboard-metrics-grid {
+    gap: 10px;
+  }
+}
+
+@media (max-height: 760px) {
+  :root {
+    --top-nav-height: 60px;
+  }
+
+  .page-inner {
+    padding: 18px 16px 36px;
+  }
+
+  .sidebar {
+    padding-block: 16px;
+  }
+
+  .sidebar nav {
+    display: grid;
+    gap: 4px;
+  }
+
+  .sidebar a {
+    padding-block: 0.45rem;
+  }
+
+  .demo-lab {
+    gap: 16px;
+  }
+
+  .demo-hero {
+    gap: 12px;
+  }
+
+  .demo-title {
+    margin-top: 0.35rem;
+    font-size: clamp(2rem, 3vw, 3.1rem);
+  }
+
+  .demo-copy {
+    margin-top: 0.5rem;
+    line-height: 1.4;
+  }
+
+  .demo-grid {
+    gap: 14px;
+  }
+
+  .demo-column {
+    gap: 12px;
+  }
+
+  .demo-panel .border-b,
+  .dashboard-panel > .border-b {
+    padding: 12px;
+  }
+
+  .demo-panel-scroll,
+  .dashboard-viewport {
+    padding: 12px;
+  }
+
+  .dashboard-shell-grid,
+  .dashboard-action-grid,
+  .dashboard-lower-grid,
+  .dashboard-metrics-grid {
+    gap: 8px;
+  }
+
+  .dashboard-panel .rounded-lg {
+    border-radius: 0.45rem;
+  }
 }
 
 ::selection {
